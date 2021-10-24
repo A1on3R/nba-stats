@@ -1,2 +1,9 @@
-<h1>Players#index</h1>
-<p>Find me in app/views/players/index.html.erb</p>
+<h1>Players</h1>
+
+<ul>
+  <% @players.each do |player| %>
+    <li>
+      <%= player.fname %>
+    </li>
+  <% end %>
+</ul>
