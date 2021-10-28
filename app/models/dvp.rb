@@ -1,0 +1,2 @@
+class Dvp < ApplicationRecord
+end

@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_24_063948) do
+ActiveRecord::Schema.define(version: 2021_10_27_191823) do
+
+  create_table "dvps", force: :cascade do |t|
+    t.string "pos"
+    t.string "team"
+    t.string "pts"
+    t.string "fgp"
+    t.string "ftp"
+    t.string "thrs"
+    t.string "rbs"
+    t.string "ast"
+    t.string "stl"
+    t.string "blk"
+    t.string "to"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "players", force: :cascade do |t|
     t.string "fname"
@@ -24,6 +40,37 @@ ActiveRecord::Schema.define(version: 2021_10_24_063948) do
     t.float "apg"
     t.float "spg"
     t.float "bpg"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.float "pts_to_pg"
+    t.float "pts_to_sg"
+    t.float "pts_to_sf"
+    t.float "pts_to_pf"
+    t.float "pts_to_c"
+    t.float "rbs_to_pg"
+    t.float "rbs_to_sg"
+    t.float "rbs_to_sf"
+    t.float "rbs_to_pf"
+    t.float "rbs_to_c"
+    t.float "ast_to_pg"
+    t.float "ast_to_sg"
+    t.float "ast_to_sf"
+    t.float "ast_to_pf"
+    t.float "ast_to_c"
+    t.float "blks_to_pg"
+    t.float "blks_to_sg"
+    t.float "blks_to_sf"
+    t.float "blks_to_pf"
+    t.float "blks_to_c"
+    t.float "stl_to_pg"
+    t.float "stl_to_sg"
+    t.float "stl_to_sf"
+    t.float "stl_to_pf"
+    t.float "stl_to_c"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

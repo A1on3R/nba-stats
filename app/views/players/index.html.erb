@@ -1,14 +1,14 @@
 <h1>Players</h1>
 
 <ul>
-
+<%if @players%>
   <% @players.each do |player| %>
     <li>
-      <%= player.fname %>
+      <%= player.fname %> - <%= player.apg%> - <%= player.teamname%>
     </li>
     <% end %>
-    
+    <%else%>
     <p>No players</p>
-    
+    <%end%>
   
 </ul>

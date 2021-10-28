@@ -1,0 +1,14 @@
+<h1>Teams</h1>
+
+<ul>
+<%if @teams%>
+  <% @teams.each do |team| %>
+    <li>
+      <%= team.name %> 
+    </li>
+    <% end %>
+    <%else%>
+    <p>No Teams</p>
+    <%end%>
+  
+</ul>
