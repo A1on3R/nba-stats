@@ -1,0 +1,20 @@
+<h1>Todays Results</h1>
+
+<ul>
+<%if @results%>
+  <%= table_for @results do -%>
+  <% column :player do |player| %>
+  <% player.fname%>
+  <%end%>
+  <% column :team, :title => "Opponent" do |team| %>
+  <% team.name%>
+  <%end%>
+  <% column :salary do |salary| %>
+  <% salary%>
+  <%end%>
+    <%end%>
+    <%else%>
+    <p>No Results</p>
+    <%end%>
+  
+</ul>
