@@ -46,6 +46,7 @@ class Dvp < ApplicationRecord
                 team_record.ast_to_pg = row.ast.to_f
                 team_record.blks_to_pg = row.blk.to_f
                 team_record.stl_to_pg = row.stl.to_f
+                team_record.thrs_to_pg = row.thrs.to_f
                 team_record.save
             when "SG"
                 team_record.pts_to_sg = row.pts.to_f
@@ -53,6 +54,7 @@ class Dvp < ApplicationRecord
                 team_record.ast_to_sg = row.ast.to_f
                 team_record.blks_to_sg = row.blk.to_f
                 team_record.stl_to_sg = row.stl.to_f
+                team_record.thrs_to_sg = row.thrs.to_f
                 team_record.save
             when "PF"
                 team_record.pts_to_pf = row.pts.to_f
@@ -60,6 +62,7 @@ class Dvp < ApplicationRecord
                 team_record.ast_to_pf = row.ast.to_f
                 team_record.blks_to_pf = row.blk.to_f
                 team_record.stl_to_pf = row.stl.to_f
+                team_record.thrs_to_pf = row.thrs.to_f
                 team_record.save
             when "SF"
                 team_record.pts_to_sf = row.pts.to_f
@@ -67,6 +70,7 @@ class Dvp < ApplicationRecord
                 team_record.ast_to_sf = row.ast.to_f
                 team_record.blks_to_sf = row.blk.to_f
                 team_record.stl_to_sf = row.stl.to_f
+                team_record.thrs_to_sf = row.thrs.to_f
                 team_record.save
             when "C"
                 team_record.pts_to_c = row.pts.to_f
@@ -74,6 +78,7 @@ class Dvp < ApplicationRecord
                 team_record.ast_to_c = row.ast.to_f
                 team_record.blks_to_c = row.blk.to_f
                 team_record.stl_to_c = row.stl.to_f
+                team_record.thrs_to_c = row.thrs.to_f
                 team_record.save
                 
             end
