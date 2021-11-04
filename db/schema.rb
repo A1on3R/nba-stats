@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_31_043444) do
+ActiveRecord::Schema.define(version: 2021_11_04_054915) do
 
   create_table "dvps", force: :cascade do |t|
     t.string "pos"
@@ -42,6 +42,9 @@ ActiveRecord::Schema.define(version: 2021_10_31_043444) do
     t.float "bpg"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "mpg"
+    t.float "gp"
+    t.float "thpg"
   end
 
   create_table "results", force: :cascade do |t|
@@ -53,6 +56,12 @@ ActiveRecord::Schema.define(version: 2021_10_31_043444) do
     t.string "pos"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "projpts"
+    t.float "projthrs"
+    t.float "projrbs"
+    t.float "projast"
+    t.float "projstls"
+    t.float "projblks"
     t.index ["player_id"], name: "index_results_on_player_id"
     t.index ["team_id"], name: "index_results_on_team_id"
   end
@@ -86,6 +95,11 @@ ActiveRecord::Schema.define(version: 2021_10_31_043444) do
     t.float "stl_to_c"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "thrs_to_pg"
+    t.float "thrs_to_sg"
+    t.float "thrs_to_pf"
+    t.float "thrs_to_sf"
+    t.float "thrs_to_c"
   end
 
   add_foreign_key "results", "players"
