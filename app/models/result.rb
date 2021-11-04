@@ -1,6 +1,6 @@
 require 'csv'
 class Result < ApplicationRecord
-  attr_accessor :salary_file
+  attr_accessor :salary_file, :minutes_file
   belongs_to :player
   belongs_to :team
 
@@ -8,19 +8,15 @@ class Result < ApplicationRecord
 
   def import_salaries
     Result.delete_all
-    CSV.foreach(salary_file.path, headers: false) do |row|
+    CSV.foreach(salary_file.path, encoding: "bom|utf-8", headers: :first_row) do |row|
     #Find opponent
     #get the entry with the game info
         if row[8] != "0"
         
-        gameinfo = row[6].gsub(/\s.+/,'')
-        
-        matchup = gameinfo.split("@")
-       
+        gameinfo = row[6].gsub(/\s.+/,'')    
+        matchup = gameinfo.split("@")     
         row[7] == matchup[1] ? opp = matchup[0] : opp = matchup[1]
         puts(row[7])
-        
-          
         
         opp_record = Team.find_by! name: opp
         
@@ -39,13 +35,13 @@ class Result < ApplicationRecord
         Result.create!(hash)
          end
         end
-        project
     end
 
 def project()
   Result.find_each do |row|
     #Still need to get the projected minutes.
-    mins = row.player.mpg
+    
+    mins = row.numberfiremins ? row.numberfiremins : 0
 
 
     case row.pos.split("/")[0]
@@ -106,6 +102,18 @@ def project()
   end
 
 end
+end
+
+def set_minutes
+  CSV.foreach(minutes_file.path, headers: false) do |row|
+    #get row name string to search
+    x = Result.joins(:player).where(:players => {:fname => row[0].split("  ")[0].tr('.','')})
+    x.update(numberfiremins: row[4].to_f)  
+   
+
+  end
+  project
+  
 end
 
 end

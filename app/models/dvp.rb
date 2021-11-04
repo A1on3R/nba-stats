@@ -8,7 +8,8 @@ class Dvp < ApplicationRecord
     #Clear the db so i Overwrite instead of extend
     Dvp.delete_all
     
-    CSV.foreach(dvp_file.path, headers: false) do |row|
+    
+    CSV.foreach(dvp_file.path, encoding: "bom|utf-8", headers: :first_row) do |row|
         row[1] = "BKN" if row[1].start_with?("BRO")
         row[1] = "OKC" if row[1].start_with?("OKL")
         hash = {

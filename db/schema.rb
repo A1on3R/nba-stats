@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_04_054915) do
+ActiveRecord::Schema.define(version: 2021_11_04_195258) do
 
   create_table "dvps", force: :cascade do |t|
     t.string "pos"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2021_11_04_054915) do
     t.float "projast"
     t.float "projstls"
     t.float "projblks"
+    t.float "numberfiremins"
     t.index ["player_id"], name: "index_results_on_player_id"
     t.index ["team_id"], name: "index_results_on_team_id"
   end

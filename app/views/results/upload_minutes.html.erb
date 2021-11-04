@@ -1,0 +1,6 @@
+<h1>upload minutes</h1>
+<%= form_tag({:action => :set_minutes}, multipart: true) do %>
+<label for="file">Upload the CSV file containing the contest player minutes</label> 
+<%= file_field_tag :minutes_file %>
+<%= submit_tag ('Upload')%>
+<% end %>
