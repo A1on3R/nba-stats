@@ -28,7 +28,7 @@ class Result < ApplicationRecord
     
         #find player
         player_record = Player.find_by! fname: row[2].tr('.',"")
-        # row[0] = "PF" if player_record.fname == "Kevin Durant"
+        row[0] = "PF" if player_record.fname == "Kevin Durant"
         hash = {
           player: player_record,
           team: opp_record,
@@ -44,7 +44,9 @@ class Result < ApplicationRecord
 
 def project()
   Result.find_each do |row|
+    #Still need to get the projected minutes.
     mins = row.player.mpg
+
 
     case row.pos.split("/")[0]
     when "PG"
