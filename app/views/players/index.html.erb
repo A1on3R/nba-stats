@@ -1,0 +1,52 @@
+<h1>Players</h1>
+
+<ul>
+<%if @players%>
+<%= table_for @players do -%>
+  <% column :fname do |fname| %>
+  <% fname%>
+  <%end%>
+  <% column :teamname do |teamname| %>
+  <% teamname%>
+  <%end%>
+  <% column :pos do |pos| %>
+  <% pos%>
+  <%end%>
+  <% column :mpg do |mpg| %>
+  <% mpg%>
+  <%end%>
+  <% column :thpg do |thpg| %>
+  <% thpg%>
+  <%end%>
+  <% column :ts do |ts| %>
+  <% ts%>
+  <%end%>
+  <% column :apg do |apg| %>
+  <% apg%>
+  <%end%>
+  <% column :spg do |spg| %>
+  <% spg%>
+  <%end%>
+  <% column :bpg do |bpg| %>
+  <% bpg%>
+  <%end%>
+  <% column :rpg do |rpg| %>
+  <% rpg%>
+  <%end%>
+  <% column :gp do |gp| %>
+  <% gp%>
+  <%end%>
+  <% column :efg do |efg| %>
+  <% efg%>
+  <%end%>
+  <% column :usg do |usg| %>
+  <% usg%>
+  <%end%>
+  <%end%>
+
+ 
+    <%else%>
+    <p>No players</p>
+    <%end%>
+  
+</ul>
