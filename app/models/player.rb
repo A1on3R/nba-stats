@@ -8,11 +8,10 @@ class Player < ApplicationRecord
         #Clear the player db so i Overwrite instead of extend
         Player.delete_all
 
-        # CSV.foreach(file.path, headers: true) do |row|
-        #   Player.create!(row.to_hash)
-        # end
+      
         CSV.foreach(file.path, encoding: "bom|utf-8", headers: :first_row) do |row|
             #put these in a dictionary later
+            #These are players who's names are different in the salary sheet
             row[1] = "KJ Martin" if row[1].start_with?("Kenyon Martin Jr.")
             row[1] = "Cameron Thomas" if row[1].start_with?("Cam Thomas")
             row[1] = "Robert Williams" if row[1].start_with?("Robert Williams III")
@@ -21,6 +20,8 @@ class Player < ApplicationRecord
             row[1] = "Xavier Tillman" if row[1].start_with?("Xavier Tillman Sr.")
             row[1] = "RJ Nembhard" if row[1].start_with?("RJ Nembhard Jr.")
             row[1] = "Greg Brown" if row[1].start_with?("Greg Brown III")
+            row[1] = "Guillermo Hernangomez" if row[1].start_with?("Willy Hernangomez")
+            row[1] = "Nicolas Claxton" if row[1].start_with?("Nic Claxton")
             row[1] = row[1].tr('.', "")
             
             

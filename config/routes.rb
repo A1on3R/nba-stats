@@ -10,9 +10,13 @@ Rails.application.routes.draw do
   post "/upload_dvp", to: "dvp#import_dvp"
   get "/upload_salaries", to: "results#upload_salaries"
   post "/upload_salaries", to: "results#import_salaries"
-  get "/results", to: "results#index"
+  
   get "/upload_minutes", to: "results#upload_minutes"
   post "/upload_minutes", to: "results#set_minutes" 
+  
+  
+
+  resources :results
   
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

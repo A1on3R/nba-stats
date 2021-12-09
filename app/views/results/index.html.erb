@@ -2,7 +2,7 @@
 
 <ul>
 <%if @results%>
-  <%= table_for @results do -%>
+  <%= table_for @results do  -%>
   <% column :player do |player| %>
   <% player.fname%>
   <%end%>
@@ -12,8 +12,12 @@
   <% column :salary do |salary| %>
   <% salary%>
   <%end%>
-   <% column :pos do |pos| %>
-  <% pos%>
+   <% column :title => "pos" do |result| %>
+   <%if result.pos.to_s.include?('/')%> 
+  <% link_to result.pos.to_s, result, method: "put" %>
+  <%else%>
+  <%result.pos.to_s%>
+  <%end%>
   <%end%>
    <% column :projfpts do |projfpts| %>
   <% projfpts%>
@@ -41,6 +45,9 @@
   <%end%>
   <% column :numberfiremins do |numberfiremins| %>
   <% numberfiremins%>
+  <%end%>
+  <% column :id do |id| %>
+  <% %>
   <%end%>
     <%end%>
     <%else%>

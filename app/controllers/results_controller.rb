@@ -1,6 +1,6 @@
 class ResultsController < ApplicationController
     def index
-        @results=Result.all
+        @results=Result.order(:projval).reverse_order
     end
     
     def upload_salaries
@@ -25,4 +25,16 @@ class ResultsController < ApplicationController
         redirect_to action: "index"
         
     end
+
+    def update()
+        @result = Result.find(params[:id])
+        @result.project_player(@result)
+        puts("PROJECTED " + @result.player.fname.to_s)
+        redirect_to action: "index"
+        
+    end
+    private
+    def result_params
+        params.require(:result).permit(:pos)
+      end
     end
