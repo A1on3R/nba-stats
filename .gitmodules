@@ -1,3 +1,4 @@
 [submodule "flowzone"]
 	path = flowzone
-	url = https://github.com/A1on3R/nba-stats.git
+	url = git://github.com/A1on3R/nba-stats
+	
