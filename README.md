@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# nba-stats
+>>>>>>> f83ac5fcd812d0f62e9e10c8bd6c6f583d75166f
