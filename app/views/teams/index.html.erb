@@ -1,0 +1,12 @@
+<h1>Teams</h1>
+
+<ul>
+<%if @teams%>
+  <%= table_for @teams do -%>
+  <% columns :name, :pts_to_pg, :pts_to_sg, :pts_to_sf, :pts_to_pf, :pts_to_c, :rbs_to_pg, :rbs_to_sg, :rbs_to_sf, :rbs_to_pf, :rbs_to_c, :ast_to_pg,:ast_to_sg,:ast_to_sf,:ast_to_pf,:ast_to_c,:blks_to_pg,:blks_to_sg,:blks_to_sf,:blks_to_pf,:blks_to_c,:stl_to_pg,:stl_to_sg,:stl_to_sf,:stl_to_pf, :stl_to_c %>
+    <%end%>
+    <%else%>
+    <p>No Teams</p>
+    <%end%>
+  
+</ul>

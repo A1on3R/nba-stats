@@ -1,0 +1,67 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  pts_to_pg: 1.5
+  pts_to_sg: 1.5
+  pts_to_sf: 1.5
+  pts_to_pf: 1.5
+  pts_to_c: 1.5
+  rbs_to_pg: 1.5
+  rbs_to_sg: 1.5
+  rbs_to_sf: 1.5
+  rbs_to_pf: 1.5
+  rbs_to_c: 1.5
+  ast_to_pg: 1.5
+  ast_to_sg: 1.5
+  ast_to_sf: 1.5
+  ast_to_pf: 1.5
+  ast_to_c: 1.5
+  blks_to_pg: 1.5
+  blks_to_sg: 1.5
+  blks_to_sf: 1.5
+  blks_to_pf: 1.5
+  blks_to_c: 1.5
+  stl_to_pg: 1.5
+  stl_to_sg: 1.5
+  stl_to_sf: 1.5
+  stl_to_pf: 1.5
+  stl_to_c: 1.5
+  thrs_to_pg: 1.5
+  thrs_to_sg: 1.5
+  thrs_to_pf: 1.5
+  thrs_to_sf: 1.5
+  thrs_to_c: 1.5
+
+two:
+  name: MyString
+  pts_to_pg: 1.5
+  pts_to_sg: 1.5
+  pts_to_sf: 1.5
+  pts_to_pf: 1.5
+  pts_to_c: 1.5
+  rbs_to_pg: 1.5
+  rbs_to_sg: 1.5
+  rbs_to_sf: 1.5
+  rbs_to_pf: 1.5
+  rbs_to_c: 1.5
+  ast_to_pg: 1.5
+  ast_to_sg: 1.5
+  ast_to_sf: 1.5
+  ast_to_pf: 1.5
+  ast_to_c: 1.5
+  blks_to_pg: 1.5
+  blks_to_sg: 1.5
+  blks_to_sf: 1.5
+  blks_to_pf: 1.5
+  blks_to_c: 1.5
+  stl_to_pg: 1.5
+  stl_to_sg: 1.5
+  stl_to_sf: 1.5
+  stl_to_pf: 1.5
+  stl_to_c: 1.5
+  thrs_to_pg: 1.5
+  thrs_to_sg: 1.5
+  thrs_to_pf: 1.5
+  thrs_to_sf: 1.5
+  thrs_to_c: 1.5

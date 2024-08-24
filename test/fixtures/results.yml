@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_id: 1
+  team_id: 1
+  projfpts: 1.5
+  projval: 1.5
+  salary: 1
+  pos: MyString
+  projpts: 1.5
+  projthrs: 1.5
+  projrbs: 1.5
+  projast: 1.5
+  projstls: 1.5
+  projblks: 1.5
+  numberfiremins: 1.5
+
+two:
+  player_id: 1
+  team_id: 1
+  projfpts: 1.5
+  projval: 1.5
+  salary: 1
+  pos: MyString
+  projpts: 1.5
+  projthrs: 1.5
+  projrbs: 1.5
+  projast: 1.5
+  projstls: 1.5
+  projblks: 1.5
+  numberfiremins: 1.5

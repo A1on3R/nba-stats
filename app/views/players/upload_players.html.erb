@@ -1,0 +1,6 @@
+<h1>upload players</h1>
+<%= form_tag({:action => :import}, multipart: true) do %>
+<label for="file">Upload the CSV file containing player averages</label> 
+<%= file_field_tag :file %>
+<%= submit_tag ('Upload')%>
+<% end %>

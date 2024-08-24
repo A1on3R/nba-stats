@@ -1,0 +1,14 @@
+<h1>dvp</h1>
+
+<ul>
+<%if @dvps%>
+  <% @dvps.each do |dvp_row| %>
+    <li>
+      <%= dvp_row.team %>
+    </li>
+    <% end %>
+    <%else%>
+    <p>No dvp</p>
+    <%end%>
+  
+</ul>

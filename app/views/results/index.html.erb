@@ -1,0 +1,57 @@
+<h1>Todays Results</h1>
+
+<ul>
+<%if @results%>
+  <%= table_for @results do  -%>
+  <% column :player do |player| %>
+  <% player.fname%>
+  <%end%>
+  <% column :team, :title => "Opponent" do |team| %>
+  <% team.name%>
+  <%end%>
+  <% column :salary do |salary| %>
+  <% salary%>
+  <%end%>
+   <% column :title => "pos" do |result| %>
+   <%if result.pos.to_s.include?('/')%> 
+  <% link_to result.pos.to_s, result, method: "put" %>
+  <%else%>
+  <%result.pos.to_s%>
+  <%end%>
+  <%end%>
+   <% column :projfpts do |projfpts| %>
+  <% projfpts%>
+  <%end%>
+  <% column :projpts do |projpts| %>
+  <% projpts%>
+  <%end%>
+  <% column :projthrs do |projthrs| %>
+  <% projthrs%>
+  <%end%>
+  <% column :projrbs do |projrbs| %>
+  <% projrbs%>
+  <%end%>
+  <% column :projast do |projast| %>
+  <% projast%>
+  <%end%>
+  <% column :projblks do |projblks| %>
+  <% projblks%>
+  <%end%>
+  <% column :projstls do |projstls| %>
+  <% projstls%>
+  <%end%>
+  <% column :projval do |projval| %>
+  <% projval%>
+  <%end%>
+  <% column :numberfiremins do |numberfiremins| %>
+  <% numberfiremins%>
+  <%end%>
+  <% column :id do |id| %>
+  <% %>
+  <%end%>
+    <%end%>
+    <%else%>
+    <p>No Results</p>
+    <%end%>
+  
+</ul>
