@@ -21,7 +21,22 @@ class Result < ApplicationRecord
         opp_record = Team.find_by! name: opp
         
         #find player
-        player_record = Player.find_by! fname: row[2].tr('.',"")
+        player_name = row[2].tr('.', "")
+
+        begin
+          player_record = Player.find_by! fname: row[2].tr('.',"")
+        rescue ActiveRecord::RecordNotFound
+          puts "Player '#{player_name}' not found. Enter the correct name:"
+          corrected_name = gets.chomp
+          begin
+
+            player_record = Player.find_by!(fname: corrected_name)
+          rescue ActiveRecord::RecordNotFound
+            puts "Player not found in slate"
+            player_record = []
+          end
+        end
+
         hash = {
           player: player_record,
           team: opp_record,
@@ -29,7 +44,10 @@ class Result < ApplicationRecord
           pos: row[0],
           
         }
-        Result.create!(hash)
+        if player_record != []
+          Result.create!(hash)
+          
+        end
          end
         end
     end
@@ -48,7 +66,13 @@ def set_minutes
   CSV.foreach(minutes_file.path, headers: false) do |row|
     #get row name string to search in Result table for the player and update that result with the minutes from the uploaded shee
     x = Result.joins(:player).where(:players => {:fname => row[0].split("  ")[0].tr('.','')})
-    x.update(numberfiremins: row[4].to_f)  
+    x.update(numberfiremins: row[5].to_f)
+    
+    print x
+    
+    pp row[5]
+    print("FUUUUCK")
+    
    
 
   end
@@ -58,6 +82,7 @@ end
 
 def project_player(result)
   #mins is 0 it isnt ever set
+  return if result.player.teamname == "2TM"
   mins = result.numberfiremins ? result.numberfiremins : 0
   if result.pos.include?('/')
     #swap the positions when I project a player with multiple positions
@@ -80,6 +105,7 @@ def project_player(result)
     result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
     #projected fantasy points for every 1000 dollars spent on the player. 
     result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
+
     result.save
   when "SG"
     result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_sg/Team.average(:pts_to_sg))).truncate(2)

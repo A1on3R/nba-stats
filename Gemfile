@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.1.4"
+ruby "3.0.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.4"
@@ -48,6 +48,8 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "table_for_collection"
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
+  gem 'nba-stats', '~> 0.1.1'
+  gem 'pry-byebug'
 end
 
 group :development do

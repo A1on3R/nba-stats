@@ -9,9 +9,15 @@ class Dvp < ApplicationRecord
     Dvp.delete_all
     
     
-    CSV.foreach(dvp_file.path, encoding: "bom|utf-8", headers: :first_row) do |row|
+    CSV.foreach(dvp_file.path, encoding: "bom|utf-8", headers: :false) do |row|
         row[1] = "BKN" if row[1].start_with?("BRO")
         row[1] = "OKC" if row[1].start_with?("OKL")
+        row[1] = "SAS" if row[1] != "SAC" && row[1].start_with?("SA") 
+        row[1] = "GSW" if row[1].start_with?("GS")
+        row[1] = "PHX" if row[1].start_with?("PHO")
+        row[1] = "OKC" if row[1].start_with?("OKL")
+        row[1] = "NYK" if row[1].start_with?("NY")
+        row[1] = "NOP" if row[1].start_with?("NO")
         hash = {
             pos: row[0].gsub(/\s.+/,''),
             team: row[1].gsub(/\s.+/,''),
@@ -49,6 +55,7 @@ class Dvp < ApplicationRecord
                 team_record.stl_to_pg = row.stl.to_f
                 team_record.thrs_to_pg = row.thrs.to_f
                 team_record.save
+                pp row
             when "SG"
                 team_record.pts_to_sg = row.pts.to_f
                 team_record.rbs_to_sg = row.rbs.to_f
@@ -57,6 +64,7 @@ class Dvp < ApplicationRecord
                 team_record.stl_to_sg = row.stl.to_f
                 team_record.thrs_to_sg = row.thrs.to_f
                 team_record.save
+                pp row
             when "PF"
                 team_record.pts_to_pf = row.pts.to_f
                 team_record.rbs_to_pf = row.rbs.to_f
@@ -65,6 +73,8 @@ class Dvp < ApplicationRecord
                 team_record.stl_to_pf = row.stl.to_f
                 team_record.thrs_to_pf = row.thrs.to_f
                 team_record.save
+                pp row
+
             when "SF"
                 team_record.pts_to_sf = row.pts.to_f
                 team_record.rbs_to_sf = row.rbs.to_f
@@ -73,6 +83,8 @@ class Dvp < ApplicationRecord
                 team_record.stl_to_sf = row.stl.to_f
                 team_record.thrs_to_sf = row.thrs.to_f
                 team_record.save
+                pp row
+
             when "C"
                 team_record.pts_to_c = row.pts.to_f
                 team_record.rbs_to_c = row.rbs.to_f
@@ -81,6 +93,8 @@ class Dvp < ApplicationRecord
                 team_record.stl_to_c = row.stl.to_f
                 team_record.thrs_to_c = row.thrs.to_f
                 team_record.save
+                pp row
+
                 
             end
         end
