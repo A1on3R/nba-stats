@@ -67,14 +67,6 @@ def set_minutes
     #get row name string to search in Result table for the player and update that result with the minutes from the uploaded shee
     x = Result.joins(:player).where(:players => {:fname => row[0].split("  ")[0].tr('.','')})
     x.update(numberfiremins: row[5].to_f)
-    
-    print x
-    
-    pp row[5]
-    print("FUUUUCK")
-    
-   
-
   end
   project
   
@@ -105,7 +97,7 @@ def project_player(result)
     result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
     #projected fantasy points for every 1000 dollars spent on the player. 
     result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
-
+    
     result.save
   when "SG"
     result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_sg/Team.average(:pts_to_sg))).truncate(2)
