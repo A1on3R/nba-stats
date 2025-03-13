@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.0.0"
+ruby "3.1.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.4"
@@ -49,7 +49,8 @@ group :development, :test do
   gem "table_for_collection"
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
   gem 'pry-byebug'
-  gem 'nba-stats'
+  gem 'httparty'
+  gem 'nokogiri'
 end
 
 group :development do
@@ -70,6 +71,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "nba_stats", "~> 0.9.3"
 
-gem "httparty", "~> 0.22.0"
