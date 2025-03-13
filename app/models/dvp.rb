@@ -7,33 +7,70 @@ class Dvp < ApplicationRecord
       
     #Clear the db so i Overwrite instead of extend
     Dvp.delete_all
+    url = "https://hashtagbasketball.com/nba-defense-vs-position"
+    response = HTTParty.get(url)
+    parsed_page = Nokogiri::HTML(response.body)
     
-    
-    CSV.foreach(dvp_file.path, encoding: "bom|utf-8", headers: :true) do |row|
-        row[1] = "BKN" if row[1].start_with?("BRO")
-        row[1] = "OKC" if row[1].start_with?("OKL")
-        row[1] = "SAS" if row[1] =~ /\bSA\b/
-        row[1] = "GSW" if row[1].start_with?("GS")
-        row[1] = "PHX" if row[1].start_with?("PHO")
-        row[1] = "OKC" if row[1].start_with?("OKL")
-        row[1] = "NYK" if row[1].start_with?("NY")
-        row[1] = "NOP" if row[1].start_with?("NO")
+    # Select the correct table (change index if needed)
+    tables = parsed_page.css('table')
+    selected_table = tables[2]
+    selected_table.css('tr')[1..].each do |row|
+        columns = row.css('td').map(&:text).map(&:strip)
+      
+        next if columns.empty? # Skip empty rows
+      
+        team = columns[1]
+        team = "BKN" if team.start_with?("BRO")
+        team = "OKC" if team.start_with?("OKL")
+        team = "SAS" if team =~ /\bSA\b/
+        team = "GSW" if team.start_with?("GS")
+        team = "PHX" if team.start_with?("PHO")
+        team = "NYK" if team.start_with?("NY")
+        team = "NOP" if team.start_with?("NO")
+      
         hash = {
-            pos: row[0].gsub(/\s.+/,''),
-            team: row[1].gsub(/\s.+/,''),
-            pts: row[2].gsub(/\s.+/,''),
-            fgp: row[3].gsub(/\s.+/,''),
-            ftp: row[4].gsub(/\s.+/,''),
-            thrs: row[5].gsub(/\s.+/,''),
-            rbs: row[6].gsub(/\s.+/,''),
-            ast: row[7].gsub(/\s.+/,''),
-            stl: row[8].gsub(/\s.+/,''),
-            blk: row[9].gsub(/\s.+/,''),
-            to: row[10].gsub(/\s.+/,''),
-            
+          pos: columns[0].gsub(/\s.+/, ''),
+          team: team.gsub(/\s.+/, ''),
+          pts: columns[2].gsub(/\s.+/, ''),
+          fgp: columns[3].gsub(/\s.+/, ''),
+          ftp: columns[4].gsub(/\s.+/, ''),
+          thrs: columns[5].gsub(/\s.+/, ''),
+          rbs: columns[6].gsub(/\s.+/, ''),
+          ast: columns[7].gsub(/\s.+/, ''),
+          stl: columns[8].gsub(/\s.+/, ''),
+          blk: columns[9].gsub(/\s.+/, ''),
+          to: columns[10].gsub(/\s.+/, '')
         }
-      Dvp.create!(hash)
-    end
+      
+        Dvp.create!(hash)
+      end
+    
+    
+    # CSV.foreach(dvp_file.path, encoding: "bom|utf-8", headers: :true) do |row|
+    #     row[1] = "BKN" if row[1].start_with?("BRO")
+    #     row[1] = "OKC" if row[1].start_with?("OKL")
+    #     row[1] = "SAS" if row[1] =~ /\bSA\b/
+    #     row[1] = "GSW" if row[1].start_with?("GS")
+    #     row[1] = "PHX" if row[1].start_with?("PHO")
+    #     row[1] = "OKC" if row[1].start_with?("OKL")
+    #     row[1] = "NYK" if row[1].start_with?("NY")
+    #     row[1] = "NOP" if row[1].start_with?("NO")
+    #     hash = {
+    #         pos: row[0].gsub(/\s.+/,''),
+    #         team: row[1].gsub(/\s.+/,''),
+    #         pts: row[2].gsub(/\s.+/,''),
+    #         fgp: row[3].gsub(/\s.+/,''),
+    #         ftp: row[4].gsub(/\s.+/,''),
+    #         thrs: row[5].gsub(/\s.+/,''),
+    #         rbs: row[6].gsub(/\s.+/,''),
+    #         ast: row[7].gsub(/\s.+/,''),
+    #         stl: row[8].gsub(/\s.+/,''),
+    #         blk: row[9].gsub(/\s.+/,''),
+    #         to: row[10].gsub(/\s.+/,''),
+            
+    #     }
+    #   Dvp.create!(hash)
+    # end
     transfer_stats_to_teams
     end
 
