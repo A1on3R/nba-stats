@@ -11,22 +11,7 @@ class Player < ApplicationRecord
       
         CSV.foreach(file.path, encoding: "bom|utf-8", headers: :first_row) do |row|
 
-            #put these in a dictionary later
-            #These are players who's names are different in the salary sheet
-            # row[1] = "KJ Martin" if row[1].start_with?("Kenyon Martin Jr.")
-            # row[1] = "Robert Williams" if row[1].start_with?("Robert Williams III")
-            # row[1] = "Bones Hyland" if row[1].start_with?("Nah'Shon Hyland")
-            # row[1] = "Moe Harkless" if row[1].start_with?("Maurice Harkless")
-            # row[1] = "Xavier Tillman" if row[1].start_with?("Xavier Tillman Sr.")
-            # row[1] = "RJ Nembhard" if row[1].start_with?("RJ Nembhard Jr.")
-            # row[1] = "Greg Brown" if row[1].start_with?("Greg Brown III")
-            # row[1] = "Guillermo Hernangomez" if row[1].start_with?("Willy Hernangomez")
-            # row[1] = "Luka Doncic" if row[1].start_with?("Luka Dončić")
-            row[1] = "Nikola Jokic" if row[1].start_with?("Nikola Jokić")
-            row[1] = "Nikola Vucevic" if row[1].start_with?("Nikola Vučević")
-            row[1] = "Luka Doncic" if row[1].start_with?("Luka Dončić")
-            row[1] = "Alperen Sengun" if row[1].start_with?("Alperen Şengün")
-            row[1] = "Nikola Vucevic" if row[1].start_with?("Nikola Vučević")
+            #if names are not matching, we might fix it here but I made it so you can fix it with a prompt
             row[1] = I18n.transliterate(row[1])
             row[1] = row[1].tr('.', "")
             

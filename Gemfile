@@ -48,8 +48,8 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "table_for_collection"
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
-  gem 'nba-stats', '~> 0.1.1'
   gem 'pry-byebug'
+  gem 'nba-stats'
 end
 
 group :development do
@@ -69,3 +69,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "nba_stats", "~> 0.9.3"
+
+gem "httparty", "~> 0.22.0"

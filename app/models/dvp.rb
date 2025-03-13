@@ -9,10 +9,10 @@ class Dvp < ApplicationRecord
     Dvp.delete_all
     
     
-    CSV.foreach(dvp_file.path, encoding: "bom|utf-8", headers: :false) do |row|
+    CSV.foreach(dvp_file.path, encoding: "bom|utf-8", headers: :true) do |row|
         row[1] = "BKN" if row[1].start_with?("BRO")
         row[1] = "OKC" if row[1].start_with?("OKL")
-        row[1] = "SAS" if row[1] != "SAC" && row[1].start_with?("SA") 
+        row[1] = "SAS" if row[1] =~ /\bSA\b/
         row[1] = "GSW" if row[1].start_with?("GS")
         row[1] = "PHX" if row[1].start_with?("PHO")
         row[1] = "OKC" if row[1].start_with?("OKL")
