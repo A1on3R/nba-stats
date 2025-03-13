@@ -63,18 +63,33 @@ end
 end
 
 def set_minutes
-  CSV.foreach(minutes_file.path, headers: false) do |row|
-    #get row name string to search in Result table for the player and update that result with the minutes from the uploaded shee
-    x = Result.joins(:player).where(:players => {:fname => row[0].split("  ")[0].tr('.','')})
-    x.update(numberfiremins: row[5].to_f)
-  end
+  # CSV.foreach(minutes_file.path, headers: false) do |row|
+  #   #get row name string to search in Result table for the player and update that result with the minutes from the uploaded shee
+  #   x = Result.joins(:player).where(:players => {:fname => row[0].split("  ")[0].tr('.','')})
+  #   x.update(numberfiremins: row[5].to_f)
+  url = "https://www.sportsline.com/nba/expert-projections/simulation/"
+  response = HTTParty.get(url)
+  parsed_page = Nokogiri::HTML(response.body)
+  
+  # Select the correct table (change index if needed)
+  tables = parsed_page.css('table')
+  selected_table = tables[0]
+  selected_table.css('tr')[1..].each do |row|
+      columns = row.css('td').map(&:text).map(&:strip)
+    
+      next if columns.empty? # Skip empty rows
+      x = Result.joins(:player).where(:players => {:fname => columns[0].split("  ")[0].tr('.','')})
+      x.update(numberfiremins: columns[9].to_f)
+
+      end
   project
   
 end
 
 def project_player(result)
   #mins is 0 it isnt ever set
-  return if result.player.teamname == "2TM"
+  return if result.player.teamname == "2TM" # I still need to account for players on multiple teams or find a source that lists them once,
+                                            # or get the current team from the matchup info?
   mins = result.numberfiremins ? result.numberfiremins : 0
   if result.pos.include?('/')
     #swap the positions when I project a player with multiple positions
