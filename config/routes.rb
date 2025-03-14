@@ -20,9 +20,9 @@ Rails.application.routes.draw do
   post "/upload_salaries", to: "results#import_salaries"
   
   get "/upload_minutes", to: "results#upload_minutes"
-  post "/upload_minutes", to: "results#set_minutes" 
+  post "/upload_minutes", to: "results#set_minutes"
   
   
 
-  resources :results
+  resources :results, only: [:index, :update]
 end

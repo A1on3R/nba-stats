@@ -4,6 +4,14 @@ class Result < ApplicationRecord
   belongs_to :player
   belongs_to :team
 
+  PLAYER_NAME_MAP = {
+  "Alexandre Sarr" => "Alex Sarr",
+  "Carlton Carrington" => "Bub Carrington",
+  "Ronald Holland II" => "Ron Holland",
+  "Tristan da Silva" => "Triston Da Silva",
+  "Kevin Knox II" => "Kevin Knox",
+}
+
   
 
   def import_salaries
@@ -24,10 +32,29 @@ class Result < ApplicationRecord
         player_name = row[2].tr('.', "")
 
         begin
-          player_record = Player.find_by! fname: row[2].tr('.',"")
+          player_record = Player.find_by! fname: player_name
+          if player_record.teamname.match?(/\dTM/)
+            last_known_team = Player.where(fname: player_name)
+                                    .where.not(teamname: ["2TM", "3TM", "4TM"])
+                                    .order(created_at: :desc)
+                                    .pluck(:teamname)
+                                    .first
+        
+            if last_known_team
+              player_record.update!(teamname: last_known_team) # Assign correct team
+              puts "Updated #{player_name} to team #{last_known_team}"
+            else
+              puts "No valid team found for #{player_name}"
+            end
+          end
         rescue ActiveRecord::RecordNotFound
-          puts "Player '#{player_name}' not found. Enter the correct name:"
-          corrected_name = gets.chomp
+          puts "Player '#{player_name}' not found. Looking for correct name:"
+          corrected_name = PLAYER_NAME_MAP[player_name] || player_name
+          if corrected_name == player_name
+            puts "Player not in dict. Enter their name"
+            corrected_name = gets.chomp
+          end
+          
           begin
 
             player_record = Player.find_by!(fname: corrected_name)

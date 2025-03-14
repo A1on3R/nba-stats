@@ -14,7 +14,7 @@
   <%end%>
    <% column :title => "pos" do |result| %>
    <%if result.pos.to_s.include?('/')%> 
-  <% link_to result.pos.to_s, result, method: "put" %>
+  <% button_to result.pos.to_s, result, method: "put" %>
   <%else%>
   <%result.pos.to_s%>
   <%end%>

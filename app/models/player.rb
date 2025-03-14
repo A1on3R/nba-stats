@@ -19,7 +19,7 @@ class Player < ApplicationRecord
           next if columns.empty?  # Skip empty rows
         
           # Process the data similar to how you did with CSV
-          columns[1] = I18n.transliterate(columns[1]).tr('.', '')
+          columns[0] = I18n.transliterate(columns[0]).tr('.', '')
         
           hash = {
             fname: columns[0],
