@@ -1,13 +1,38 @@
 class ResultsController < ApplicationController
+  
     def index
-        @results=Result.order(:projval).reverse_order
-    end
+        sort_column = params[:sort] || "projval"  # Default sorting column
+        sort_order = params[:direction] == "desc" ? "DESC" : "ASC"
+        puts "YOOOOO"
+      
+        if sort_column == "players.fname"
+            
+        
+            
+          @results = Result.joins(:player).order("players.fname #{sort_order}")
+        elsif sort_column == "players.teamname"
+          @results = Result.joins(:player).order("players.teamname #{sort_order}")
+        elsif sort_column == "players.pos"
+          @results = Result.joins(:player).order("players.pos #{sort_order}")
+        else
+
+          puts "WHATSS UPPP???"
+          @results = Result.order("#{sort_column} #{sort_order}")
+        end
+      end
     
     def upload_salaries
     end
     
     def upload_minutes
        
+    end
+    def run_simulation
+        Player.import()
+        Dvp.import_dvp()
+        
+
+
     end
     def set_minutes
         result_obj = Result.new

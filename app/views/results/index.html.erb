@@ -3,44 +3,44 @@
 <ul>
 <%if @results%>
   <%= table_for @results do  -%>
-  <% column :player do |player| %>
-  <% player.fname%>
+  <% column :player, title: link_to("Player", results_path(sort: "players.fname", direction: params[:direction] == "asc" ? "desc" : "asc")) do |player| %>
+  <% player.fname %>
   <%end%>
-  <% column :team, :title => "Opponent" do |team| %>
+  <% column :team, title: link_to("OPP", results_path(sort: "players.teamname", direction: params[:direction] == "asc" ? "desc" : "asc")) do |team| %>
   <% team.name%>
   <%end%>
-  <% column :salary do |salary| %>
+  <% column :salary, title: link_to("$$$", results_path(sort: "salary", direction: params[:direction] == "asc" ? "desc" : "asc")) do |salary| %>
   <% salary%>
   <%end%>
-   <% column :title => "pos" do |result| %>
+   <% column title: link_to("POS", results_path(sort: "players.pos", direction: params[:direction] == "asc" ? "desc" : "asc")) do |result| %>
    <%if result.pos.to_s.include?('/')%> 
   <% button_to result.pos.to_s, result, method: "put" %>
   <%else%>
   <%result.pos.to_s%>
   <%end%>
   <%end%>
-   <% column :projfpts do |projfpts| %>
+  <% column :projfpts, title: link_to("Proj FPTS", results_path(sort: "projfpts", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projfpts| %>
   <% projfpts%>
   <%end%>
-  <% column :projpts do |projpts| %>
+  <% column :projpts, title: link_to("Proj PTS", results_path(sort: "projpts", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projpts| %>
   <% projpts%>
   <%end%>
-  <% column :projthrs do |projthrs| %>
+  <% column :projthrs, title: link_to("Proj THRS", results_path(sort: "projthrs", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projthrs| %>
   <% projthrs%>
   <%end%>
-  <% column :projrbs do |projrbs| %>
+  <% column :projrbs, title: link_to("Proj REB", results_path(sort: "projreb", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projrbs| %>
   <% projrbs%>
   <%end%>
-  <% column :projast do |projast| %>
+  <% column :projast, title: link_to("Proj AST", results_path(sort: "projast", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projast| %>
   <% projast%>
   <%end%>
-  <% column :projblks do |projblks| %>
+  <% column :projblks, title: link_to("Proj Blocks", results_path(sort: "projblks", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projblks| %>
   <% projblks%>
   <%end%>
-  <% column :projstls do |projstls| %>
+  <% column :projstls, title: link_to("Proj Steals", results_path(sort: "projstls", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projstls| %>
   <% projstls%>
   <%end%>
-  <% column :projval do |projval| %>
+  <% column :projval, title: link_to("Proj Val", results_path(sort: "projval", direction: params[:direction] == "asc" ? "desc" : "asc")) do |projval| %>
   <% projval%>
   <%end%>
   <% column :numberfiremins do |numberfiremins| %>
