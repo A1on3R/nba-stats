@@ -2,7 +2,7 @@ require 'csv'
 class Player < ApplicationRecord
     attr_accessor :file
     
-    def import()
+    def self.import()
         Result.delete_all
 
         #Clear the player db so i Overwrite instead of extend

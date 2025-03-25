@@ -3,7 +3,7 @@ require 'csv'
 class Dvp < ApplicationRecord
     attr_accessor :dvp_file
 
-    def import_dvp
+    def self.import_dvp
       
     #Clear the db so i Overwrite instead of extend
     Dvp.delete_all
@@ -74,7 +74,7 @@ class Dvp < ApplicationRecord
     transfer_stats_to_teams
     end
 
-    def transfer_stats_to_teams
+    def self.transfer_stats_to_teams
         #for each row in the dvp table
         # get team record matching row.team
         # if row.pos is 'PG', 

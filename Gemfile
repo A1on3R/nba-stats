@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.1.0"
+ruby "3.2.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.4"
@@ -69,6 +69,11 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'shoulda-matchers'
 end
 
 
+
+gem "rspec-rails", "~> 7.1", :group => :test
+
+gem "factory_bot_rails", "~> 6.4", :group => :test

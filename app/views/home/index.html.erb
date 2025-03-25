@@ -1,0 +1,6 @@
+<h1>Run Simulation</h1>
+<%= form_tag({controller: "results", :action => :run_simulation}, multipart: true) do %>
+<label for="file">Upload the CSV file containing the contest player salaries</label> 
+<%= file_field_tag :salary_file %>
+<%= submit_tag ('Upload')%>
+<% end %>

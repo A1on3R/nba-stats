@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: your-app-label
+  template:
+    metadata:
+      labels:
+        app: your-app-label
+    spec:
+      containers:
+        - name: your-container-name
+          image: a1on3r/dk_projections-web:latest
+          env:
+          - name: APP_COMMAND
+            value: "./bin/rails server -b 0.0.0.0"
+          - name: PORT
+            value: "3000"
+          - name: RAILS_ENV
+            value: "development"
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: new-web-service
+spec:
+  selector:
+    app: your-app-label
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: dk-projections
+# spec:
+#   replicas: 2  # Adjust as needed
+#   minReadySeconds: 5
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxSurge: 1
+#       maxUnavailable: 1
+#   selector:
+#     matchLabels:
+#       app: dk-projections
+#   template:
+#     metadata:
+#       labels:
+#         app: dk-projections
+#     spec:
+#       containers:
+#       - name: default
+#         image: a1on3r/dk_projections-web
+#         imagePullPolicy: Never
+#         env:
+#         - name: APP_COMMAND
+#           value: "./bin/rails server -b 0.0.0.0"
+#         - name: PORT
+#           value: "3000"
+#         - name: RAILS_ENV
+#           value: "development"
+#         ports:
+#         - containerPort: 3000
+#           name: http
+#           protocol: TCP
+#       initContainers:
+#       - name: migrations
+#         image: a1on3r/dk_projections-web
+#         command:
+#         - ./bin/rails
+#         - db:abort_if_pending_migrations

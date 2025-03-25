@@ -7,6 +7,10 @@
 default: &default
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: mysql-db-service  # Use the service name from Part 2
+  username: MYSQL_ROOT_USER
+  password: MYSQL_ROOT_PASSWORD
+  socket: /tmp/mysql.sock
   timeout: 5000
 
 development:

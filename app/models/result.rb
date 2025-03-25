@@ -10,6 +10,9 @@ class Result < ApplicationRecord
   "Ronald Holland II" => "Ron Holland",
   "Tristan da Silva" => "Triston Da Silva",
   "Kevin Knox II" => "Kevin Knox",
+  "Marjon Beauchamp" => "MarJon Beauchamp",
+  "EJ Harkless" => "Elijah Harkless",
+  "GG Jackson II" => "Gregory Jackson",
 }
 
   
@@ -51,8 +54,8 @@ class Result < ApplicationRecord
           puts "Player '#{player_name}' not found. Looking for correct name:"
           corrected_name = PLAYER_NAME_MAP[player_name] || player_name
           if corrected_name == player_name
-            puts "Player not in dict. Enter their name"
-            corrected_name = gets.chomp
+            puts "Player #{corrected_name} not in dict. Enter their name"
+            puts "**************************************"
           end
           
           begin

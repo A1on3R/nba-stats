@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  
+  get 'home/index'
   get 'players/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -7,7 +9,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 
   get "/players", to:"players#index"
   get "/upload_players", to: "players#upload_players"
@@ -21,6 +23,7 @@ Rails.application.routes.draw do
   
   get "/upload_minutes", to: "results#upload_minutes"
   post "/upload_minutes", to: "results#set_minutes"
+  post "/results/run_simulation", to: "results#run_simulation"
   
   
 
