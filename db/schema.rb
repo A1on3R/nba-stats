@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_24_025927) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_31_193804) do
   create_table "dvps", force: :cascade do |t|
     t.string "pos"
     t.string "team"
@@ -100,6 +100,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_025927) do
     t.float "thrs_to_c"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "pacing"
   end
 
   add_foreign_key "results", "players"

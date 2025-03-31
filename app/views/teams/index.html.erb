@@ -1,12 +1,47 @@
 <h1>Teams</h1>
 
 <ul>
-<%if @teams%>
-  <%= table_for @teams do -%>
-  <% columns :name, :pts_to_pg, :pts_to_sg, :pts_to_sf, :pts_to_pf, :pts_to_c, :rbs_to_pg, :rbs_to_sg, :rbs_to_sf, :rbs_to_pf, :rbs_to_c, :ast_to_pg,:ast_to_sg,:ast_to_sf,:ast_to_pf,:ast_to_c,:blks_to_pg,:blks_to_sg,:blks_to_sf,:blks_to_pf,:blks_to_c,:stl_to_pg,:stl_to_sg,:stl_to_sf,:stl_to_pf, :stl_to_c %>
-    <%end%>
-    <%else%>
+  <% if @teams %>
+    <%= table_for @teams do -%>
+      <% column :name %>
+      <% column :pacing do |team| %>
+        <input type="number" value="<%= team.pacing %>" 
+               data-team-id="<%= team.id %>" 
+               class="pacing-input" 
+               step="0.1">
+      <% end %>
+    <% end %>
+  <% else %>
     <p>No Teams</p>
-    <%end%>
-  
+  <% end %>
 </ul>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".pacing-input").forEach(input => {
+    input.addEventListener("change", function() {
+      let teamId = this.getAttribute("data-team-id");
+      let newValue = this.value;
+
+      fetch("/update_team_pacing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": "<%= form_authenticity_token %>"
+        },
+        body: JSON.stringify({ team_id: teamId, pacing: newValue })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log("Updated successfully");
+        } else {
+          alert("Update failed");
+        }
+      });
+    });
+  });
+});
+</script>
+
+
