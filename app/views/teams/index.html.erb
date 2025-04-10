@@ -1,47 +1,77 @@
 <h1>Teams</h1>
 
-<ul>
-  <% if @teams %>
-    <%= table_for @teams do -%>
-      <% column :name %>
-      <% column :pacing do |team| %>
-        <input type="number" value="<%= team.pacing %>" 
-               data-team-id="<%= team.id %>" 
-               class="pacing-input" 
-               step="0.1">
+<% if @teams.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Pacing</th>
+        <th>PTS PG</th>
+        <th>PTS SG</th>
+        <th>PTS SF</th>
+        <th>PTS PF</th>
+        <th>PTS C</th>
+        <th>RBS PG</th>
+        <th>RBS SG</th>
+        <th>RBS SF</th>
+        <th>RBS PF</th>
+        <th>RBS C</th>
+        <th>AST PG</th>
+        <th>AST SG</th>
+        <th>AST SF</th>
+        <th>AST PF</th>
+        <th>AST C</th>
+        <th>BLKS PG</th>
+        <th>BLKS SG</th>
+        <th>BLKS SF</th>
+        <th>BLKS PF</th>
+        <th>BLKS C</th>
+        <th>STL PG</th>
+        <th>STL SG</th>
+        <th>STL SF</th>
+        <th>STL PF</th>
+        <th>STL C</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teams.each do |team| %>
+        <tr>
+          <td><%= team.name %></td>
+          <td>
+            <%= form_with model: team, url: team_path(team), method: :patch, local: true do |f| %>
+              <%= f.number_field :pacing, value: team.pacing, step: 0.1, size: 4 %>
+              <%= f.submit "Update" %>
+            <% end %>
+          </td>
+          <td><%= team.pts_to_pg %></td>
+          <td><%= team.pts_to_sg %></td>
+          <td><%= team.pts_to_sf %></td>
+          <td><%= team.pts_to_pf %></td>
+          <td><%= team.pts_to_c %></td>
+          <td><%= team.rbs_to_pg %></td>
+          <td><%= team.rbs_to_sg %></td>
+          <td><%= team.rbs_to_sf %></td>
+          <td><%= team.rbs_to_pf %></td>
+          <td><%= team.rbs_to_c %></td>
+          <td><%= team.ast_to_pg %></td>
+          <td><%= team.ast_to_sg %></td>
+          <td><%= team.ast_to_sf %></td>
+          <td><%= team.ast_to_pf %></td>
+          <td><%= team.ast_to_c %></td>
+          <td><%= team.blks_to_pg %></td>
+          <td><%= team.blks_to_sg %></td>
+          <td><%= team.blks_to_sf %></td>
+          <td><%= team.blks_to_pf %></td>
+          <td><%= team.blks_to_c %></td>
+          <td><%= team.stl_to_pg %></td>
+          <td><%= team.stl_to_sg %></td>
+          <td><%= team.stl_to_sf %></td>
+          <td><%= team.stl_to_pf %></td>
+          <td><%= team.stl_to_c %></td>
+        </tr>
       <% end %>
-    <% end %>
-  <% else %>
-    <p>No Teams</p>
-  <% end %>
-</ul>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  document.querySelectorAll(".pacing-input").forEach(input => {
-    input.addEventListener("change", function() {
-      let teamId = this.getAttribute("data-team-id");
-      let newValue = this.value;
-
-      fetch("/update_team_pacing", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": "<%= form_authenticity_token %>"
-        },
-        body: JSON.stringify({ team_id: teamId, pacing: newValue })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          console.log("Updated successfully");
-        } else {
-          alert("Update failed");
-        }
-      });
-    });
-  });
-});
-</script>
-
-
+    </tbody>
+  </table>
+<% else %>
+  <p>No Teams</p>
+<% end %>

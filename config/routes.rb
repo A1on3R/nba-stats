@@ -28,4 +28,5 @@ Rails.application.routes.draw do
   
 
   resources :results, only: [:index, :update]
+  resources :teams, only: [:index, :update]
 end
