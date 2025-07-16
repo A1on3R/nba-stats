@@ -72,6 +72,7 @@ class Result < ApplicationRecord
           team: opp_record,
           salary: row[5],
           pos: row[0],
+          gameinfo: gameinfo,
           
         }
         if player_record != []
@@ -130,62 +131,78 @@ def project_player(result)
   end
 
   #Based on the position, project the players stats
-  case result.pos.split("/")[0]
-  when "PG"
-    result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_pg/Team.average(:rbs_to_pg))).truncate(2)  
-    result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_pg/Team.average(:pts_to_pg))).truncate(2)
-    result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_pg/Team.average(:ast_to_pg))).truncate(2)  
-    result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_pg/Team.average(:stl_to_pg))).truncate(2)  
-    result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_pg/Team.average(:blks_to_pg))).truncate(2)  
-    result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_pg/Team.average(:thrs_to_pg))).truncate(2)
-    #Draftkings Formula
-    result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
-    #projected fantasy points for every 1000 dollars spent on the player. 
-    result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
+  #trying to refactor
+  stats = {
+    rbs: [:rpg, :rbs_to_],
+    pts: [:ppg, :pts_to_],
+    ast: [:apg, :ast_to_],
+    stls: [:spg, :stl_to_],
+    blks: [:bpg, :blks_to_],
+    thrs: [:thpg, :thrs_to_]
+  }
+  player_position = result.pos.split("/")[0].downcase
+  stats.each do |proj_stat, (pg_stat, team_stat_prefix)|
+    team_stat_name = "#{team_stat_prefix}#{player_position}".to_sym
+    value = ((result.player.send(pg_stat) / result.player.mpg) * mins * (result.team.send(team_stat_name) / Team.average(team_stat_name))).truncate(2)
+    result.send("proj#{proj_stat}=", value)
+  end
+
+  # case result.pos.split("/")[0]
+  # when "PG"
+  #   result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_pg/Team.average(:rbs_to_pg))).truncate(2)  
+  #   result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_pg/Team.average(:pts_to_pg))).truncate(2)
+  #   result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_pg/Team.average(:ast_to_pg))).truncate(2)  
+  #   result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_pg/Team.average(:stl_to_pg))).truncate(2)  
+  #   result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_pg/Team.average(:blks_to_pg))).truncate(2)  
+  #   result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_pg/Team.average(:thrs_to_pg))).truncate(2)
+  #   #Draftkings Formula
+  #   result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
+  #   #projected fantasy points for every 1000 dollars spent on the player. 
+  #   result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
     
-    result.save
-  when "SG"
-    result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_sg/Team.average(:pts_to_sg))).truncate(2)
-    result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_sg/Team.average(:rbs_to_sg))).truncate(2)  
-    result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_sg/Team.average(:ast_to_sg))).truncate(2)  
-    result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_sg/Team.average(:stl_to_sg))).truncate(2)  
-    result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_sg/Team.average(:blks_to_sg))).truncate(2)  
-    result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_sg/Team.average(:thrs_to_sg))).truncate(2)
-    result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
-    result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
+  #   result.save
+  # when "SG"
+  #   result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_sg/Team.average(:pts_to_sg))).truncate(2)
+  #   result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_sg/Team.average(:rbs_to_sg))).truncate(2)  
+  #   result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_sg/Team.average(:ast_to_sg))).truncate(2)  
+  #   result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_sg/Team.average(:stl_to_sg))).truncate(2)  
+  #   result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_sg/Team.average(:blks_to_sg))).truncate(2)  
+  #   result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_sg/Team.average(:thrs_to_sg))).truncate(2)
+  #   result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
+  #   result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
     
-    result.save  
-  when "PF"
-    result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_pf/Team.average(:pts_to_pf))).truncate(2)
-    result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_pf/Team.average(:rbs_to_pf))).truncate(2)  
-    result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_pf/Team.average(:ast_to_pf))).truncate(2)  
-    result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_pf/Team.average(:stl_to_pf))).truncate(2)  
-    result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_pf/Team.average(:blks_to_pf))).truncate(2)  
-    result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_pf/Team.average(:thrs_to_pf))).truncate(2)  
-    result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
-    result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
+  #   result.save  
+  # when "PF"
+  #   result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_pf/Team.average(:pts_to_pf))).truncate(2)
+  #   result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_pf/Team.average(:rbs_to_pf))).truncate(2)  
+  #   result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_pf/Team.average(:ast_to_pf))).truncate(2)  
+  #   result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_pf/Team.average(:stl_to_pf))).truncate(2)  
+  #   result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_pf/Team.average(:blks_to_pf))).truncate(2)  
+  #   result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_pf/Team.average(:thrs_to_pf))).truncate(2)  
+  #   result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
+  #   result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
     
-    result.save
-  when "SF"
-    result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_sf/Team.average(:pts_to_sf))).truncate(2)
-    result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_sf/Team.average(:rbs_to_sf))).truncate(2)  
-    result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_sf/Team.average(:ast_to_sf))).truncate(2)  
-    result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_sf/Team.average(:stl_to_sf))).truncate(2)  
-    result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_sf/Team.average(:blks_to_sf))).truncate(2)  
-    result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_sf/Team.average(:thrs_to_sf))).truncate(2)  
-    result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
-    result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
+  #   result.save
+  # when "SF"
+  #   result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_sf/Team.average(:pts_to_sf))).truncate(2)
+  #   result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_sf/Team.average(:rbs_to_sf))).truncate(2)  
+  #   result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_sf/Team.average(:ast_to_sf))).truncate(2)  
+  #   result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_sf/Team.average(:stl_to_sf))).truncate(2)  
+  #   result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_sf/Team.average(:blks_to_sf))).truncate(2)  
+  #   result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_sf/Team.average(:thrs_to_sf))).truncate(2)  
+  #   result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
+  #   result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
     
-    result.save
-  when "C"
-    result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_c/Team.average(:pts_to_c))).truncate(2)
-    result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_c/Team.average(:rbs_to_c))).truncate(2)  
-    result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_c/Team.average(:ast_to_c))).truncate(2)  
-    result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_c/Team.average(:stl_to_c))).truncate(2)  
-    result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_c/Team.average(:blks_to_c))).truncate(2)  
-    result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_c/Team.average(:thrs_to_c))).truncate(2)  
-    result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
-    result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
+  #   result.save
+  # when "C"
+  #   result.projpts = ((result.player.ppg/result.player.mpg) * mins * (result.team.pts_to_c/Team.average(:pts_to_c))).truncate(2)
+  #   result.projrbs = ((result.player.rpg/result.player.mpg) * mins * (result.team.rbs_to_c/Team.average(:rbs_to_c))).truncate(2)  
+  #   result.projast = ((result.player.apg/result.player.mpg) * mins * (result.team.ast_to_c/Team.average(:ast_to_c))).truncate(2)  
+  #   result.projstls = ((result.player.spg/result.player.mpg) * mins * (result.team.stl_to_c/Team.average(:stl_to_c))).truncate(2)  
+  #   result.projblks = ((result.player.bpg/result.player.mpg) * mins * (result.team.blks_to_c/Team.average(:blks_to_c))).truncate(2)  
+  #   result.projthrs = ((result.player.thpg/result.player.mpg) * mins * (result.team.thrs_to_c/Team.average(:thrs_to_c))).truncate(2)  
+  #   result.projfpts = (result.projpts + (result.projrbs * 1.25) + (result.projast * 1.5) + (result.projstls * 2) + (result.projblks * 2) + (result.projthrs * 0.5)).truncate(2)   
+  #   result.projval = (result.projfpts/(result.salary/1000)).truncate(2)
     
     result.save
 end
